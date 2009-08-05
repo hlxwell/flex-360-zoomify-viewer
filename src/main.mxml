@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:theplant="ThePlant.*" 
+	layout="horizontal" horizontalAlign="left" 
+	paddingTop="5" paddingBottom="5" paddingLeft="5" paddingRight="5" horizontalGap="5"
+    backgroundColor="#ffffff" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#FFFFFF, #FFFFFF]"
+    initialize="initCallback(event)"
+    xmlns:openzoom="http://ns.openzoom.org/2008">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import flash.external.*;
+			
+			public function initCallback(event:Event):void {
+				var varId:String 				= mx.core.Application.application.parameters.vid;
+				var totalFrameCount:int 		= mx.core.Application.application.parameters.frameCount;
+				var showTopBottomButtons:int 	= mx.core.Application.application.parameters.showTopBottomButtons;
+				
+				varId = '3894';
+				totalFrameCount = 8;
+				showTopBottomButtons = 2;
+				
+				if(varId && totalFrameCount) {
+					frames.variationId = varId;
+					frames.totalFramesCount = totalFrameCount;
+					frames.showTopBottomButtons = showTopBottomButtons;
+					
+					if(showTopBottomButtons == 1) {
+						this.top_button.visible = true;
+						this.bottom_button.visible = false;
+					} else if (showTopBottomButtons == 2) {
+						this.top_button.visible = false;
+						this.bottom_button.visible = true;
+					} else if (showTopBottomButtons == 3) {
+						this.top_button.visible = true;
+						this.bottom_button.visible = true;
+					} else { // showTopBottomButtons = 0
+						this.top_button.visible = false;
+						this.bottom_button.visible = false;
+					}
+					reload();
+				}
+			}
+			
+			private function reload():void {
+				frames.reload();
+			}
+		]]>
+	</mx:Script>
+
+	<mx:VBox width="594" height="330" verticalGap="3" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<theplant:Frames id="frames" width="594" height="285"></theplant:Frames>
+		<mx:ApplicationControlBar width="100%">
+			<mx:Button label="+" click="frames.zoomIn()"/>
+			<mx:Button label="-" click="frames.zoomOut()"/>
+			<mx:Button label="&lt;&lt;" click="frames.leftRotate()"/>
+			<mx:Button label="&gt;&gt;" click="frames.rightRotate()"/>
+			<mx:Button label="Reset" click="frames.reset()"/>
+			<mx:Button id="bottom_button" label="Bottom" click="frames.showSpecialFrame(2)"/>
+			<mx:Button id="top_button" label="Top" click="frames.showSpecialFrame(1)"/>			
+		</mx:ApplicationControlBar>
+	</mx:VBox>
+</mx:Application>
