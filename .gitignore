@@ -1,2 +1,4 @@
 images/DSC*
 .DS_Store
+bin-debug
+bin-release
